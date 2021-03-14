@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>magic square</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  </head>
+  <body>
+      <div class="container">
+        <div class="square row" style="margin-top:100px;">
+            <div class="work-square col-6 offset-3">
+
+            </div>
+            <div class="correct-square col-6 offset-3">
+
+            </div>
+        </div>
+      </div>
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+       <script type="text/javascript">
+         function validate(n){
+           //get number sequence
+           var mc = n*(Math.pow(n,2)+1)/2;
+           var num_sequence = [];
+           $('.number').each(function(){
+             num_sequence.push(parseInt($(this).html()));
+           });
+           const newArr = [];
+           while(num_sequence.length) newArr.push(num_sequence.splice(0,n));
+           // check the horizontal sums
+           for(var i=0;i<newArr.length;i++){
+             var sum = 0;
+             for(var j=0;j<newArr[i].length;j++){
+               sum+=newArr[i][j];
+             }
+             if(sum===mc){continue;}
+             else{return false;}
+           }
+           //check the vertical sums
+           for(var i=0;i<newArr.length;i++){
+             var sum = 0;
+             for(var j=0;j<newArr[i].length;j++){
+               sum+=newArr[j][i];
+             }
+             if(sum===mc){continue;}
+             else{return false;}
+           }
+
+           return true;
+         }
+       </script>
+      <script type="text/javascript">
+        function fill_work(n){
+          work_html = '';
+          for (var i=1;i<=Math.pow(n,2);i++){
+            work_html += '<div class="number" data-selected="0" style="padding-left: 28px;padding-right: 17px;border: 2px solid red;width: 70px;display: inline-flex;height: 70px;padding-top: 17px;font-size: 22px;">'+i+'</div>';
+
+            if(i%n===0){
+              console.log('sst');
+              work_html+='<br>';
+            }
+          }
+
+          $('.work-square').html(work_html);
+        }
+        function switch_values(n){
+          var selected_divs = [];
+          $('.number').each(function(e){
+            if(parseInt($(this).attr('data-selected'))===1){
+              selected_divs.push($(this));
+            }
+          });
+          if(selected_divs.length===2){
+            var val_1 = selected_divs[0].html();
+            var val_2 = selected_divs[1].html();
+            selected_divs[0].html(val_2);
+            selected_divs[1].html(val_1);
+            selected_divs[0].attr('style','padding-left: 28px;padding-right: 17px;border: 2px solid red;width: 70px;display: inline-flex;height: 70px;padding-top: 17px;font-size: 22px;');
+            selected_divs[1].attr('style','padding-left: 28px;padding-right: 17px;border: 2px solid red;width: 70px;display: inline-flex;height: 70px;padding-top: 17px;font-size: 22px;');
+            selected_divs[0].attr('data-selected','0');
+            selected_divs[1].attr('data-selected','0');
+            if(validate(n)){
+              $('.number').each(function(e){
+                $(this).attr('style','padding-left: 28px;padding-right: 17px;border: 2px solid limegreen;width: 70px;display: inline-flex;height: 70px;padding-top: 17px;font-size: 22px;')
+              });
+            }
+          }
+        }
+        function implement_interaction(n){
+          $('.number').on('click',function(e){
+
+            $(this).attr('data-selected','1');
+            $(this).attr('style','padding-left: 28px;padding-right: 17px;border: 2px solid blue;width: 70px;display: inline-flex;height: 70px;padding-top: 17px;font-size: 22px;');
+            switch_values(n);
+          });
+        }
+        fill_work(4);
+        implement_interaction(4);
+      </script>
+
+  </body>
+</html>
