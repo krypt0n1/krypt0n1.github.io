@@ -7,13 +7,16 @@
   </head>
   <body>
       <div class="container">
-        <div class="square row" style="margin-top:100px;">
+        <div class="square row justify-content-center" style="margin-top:100px;">
             <div class="work-square col-6 offset-3">
 
             </div>
             <div class="correct-square col-6 offset-3">
 
             </div>
+        </div>
+        <div class="row justify-content-center mt-3">
+          <input id="dimension" type="text" class="control-form" value="">
         </div>
       </div>
        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -97,6 +100,11 @@
         fill_work(4);
         implement_interaction(4);
       </script>
-
+      <script type="text/javascript">
+        $('#dimension').on('change',function(e){
+          fill_work($('#dimension').val());
+          implement_interaction($('#dimension').val());
+        });
+      </script>
   </body>
 </html>
